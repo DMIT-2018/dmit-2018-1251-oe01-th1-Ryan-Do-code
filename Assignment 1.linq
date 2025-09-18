@@ -51,7 +51,7 @@ Students
 .Where(x => x.Countries.CountryName != "Canada" &&
 			x.StudentPayments.Count() == 0)
 .OrderBy(x => x.LastName)
-.Select (x => new
+.Select(x => new
 {
 	StudentNumber = x.StudentNumber,
 	CountryName = x.Countries.CountryName,
@@ -59,4 +59,20 @@ Students
 	ClubMembershipCount = x.ClubMembers.Count() == 0 ? "None" : x.ClubMembers.Count().ToString()
 })
 .Dump();
-			
+
+//Question 4
+
+Employees
+.Where(x => x.Position.Description == "Instructor" &&
+			x.ReleaseDate == null &&
+			x.ClassOfferings.Count() >= 1)
+.OrderByDescending(x => x.ClassOfferings.Count())
+.ThenBy(x => x.LastName)
+.Select(x => new
+{
+	ProgramName = x.Program.ProgramName,
+	FullName = x.FirstName + " " + x.LastName,
+	WorkLoad = x.ClassOfferings.Count() > 24 ? "High" :
+			   x.ClassOfferings.Count() > 8 ? "Med" : "Low"
+})
+.Dump();
